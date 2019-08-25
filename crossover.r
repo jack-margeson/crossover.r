@@ -3,8 +3,9 @@
 # R script for analyzing the effect of crossover studies. Part of an internship project for Proctor & Gamble.
 
 # Library inclusions
-library(ggplot2)
-library(reshape2)
+library(ggplot2) # Graphic generator
+library(reshape2) # Melt data for plot
+library(readxl) # Import dataset from Excel
 
 #--------------- Both Models ---------------#
 
@@ -32,8 +33,8 @@ model.plot + labs(
 # Each subject undergoes 6 treatments in total, across 6 periods.
 # 108 random data values are generated here from the normal model for use in data generation.
 # Since we're looking for a baseline, all products (A-F) pull from the same normal distribution.
-model1.data <- rnorm(108, 2.883, 0.34)
-model1.data
+# model1.data <- rnorm(108, 2.883, 0.34)
+model1.data <- read_excel("./model1_data.xlsx")
 
 #--------------- Model #2 ---------------#
 
@@ -42,5 +43,5 @@ model1.data
 # Each subject undergoes 4 treatments in total, across 4 periods with washout periods.
 # 48 random data values are generated here from the normal model for use in data generation.
 # Since we're looking for a baseline, all products (A & B) pull from the same normal distribution.
-model2.data <- rnorm(48, 2.883, 0.34)
-model2.data
+# model2.data <- rnorm(48, 2.883, 0.34)
+model2.data <- read_excel("./model2_data.xlsx")
