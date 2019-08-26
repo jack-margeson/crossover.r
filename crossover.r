@@ -6,6 +6,7 @@
 library(ggplot2) # Graphic generator
 library(reshape2) # Melt data for plot
 library(readxl) # Import dataset from Excel
+library(lme4)
 
 #--------------- Both Models ---------------#
 
@@ -35,6 +36,7 @@ model.plot + labs(
 # Since we're looking for a baseline, all products (A-F) pull from the same normal distribution.
 # model1.data <- rnorm(108, 2.883, 0.34)
 model1.data <- read_excel("./model1_data.xlsx")
+model1.lmer = lmer(Plaque ~ (1|Subject), data=model1.data)
 
 #--------------- Model #2 ---------------#
 
