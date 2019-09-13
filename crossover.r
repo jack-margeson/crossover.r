@@ -6,7 +6,7 @@
 library(ggplot2) # Graphic generator
 library(reshape2) # Melt data for plot
 library(readxl) # Import dataset from Excel
-library(lme4)
+library(nmle) # Mixed models in R
 
 #--------------- Both Models ---------------#
 
@@ -36,7 +36,14 @@ model.plot + labs(
 # Since we're looking for a baseline, all products (A-F) pull from the same normal distribution.
 # model1.data <- rnorm(108, 2.883, 0.34)
 model1.data <- read_excel("./model1_data.xlsx")
-model1.lmer = lmer(Plaque ~ (1|Subject), data=model1.data)
+# Linear mixed model in R.
+# Using package NLME, the lme function fits a linear mixed-effects model while allowing for nested random effects.
+# We can use the following line to generate a lme model for us with subjects as our random effect.
+# Noted: treatement and period added as fix effect covariates.
+model1.lme <- lme(Plaque ~ Treatment + Period, random=~1|Subject, data=model1.data)
+summary(model1.lme)
+# Gets the baseline of overal treatment means.
+model1.lme.baseline <- Reduce(`+`, model1.lme[["coefficients"]][["fixed"]]) / 6
 
 #--------------- Model #2 ---------------#
 
