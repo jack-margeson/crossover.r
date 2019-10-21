@@ -2,11 +2,15 @@
 # Jack Margeson, Summer of 2019
 # R script for analyzing the effect of crossover studies. Part of an internship project for Proctor & Gamble.
 
+# Set the working directory of the project (required for data loading.)
+setwd("~/Documents/GitHub/crossover.r")
+
 # Library inclusions
 library(ggplot2) # Graphic generator
 library(reshape2) # Melt data for plot
 library(readxl) # Import dataset from Excel
-library(nmle) # Mixed models in R
+library(nlme) # Linear and nonlinear mixed effect models.
+require(lsmeans)
 
 #--------------- Both Models ---------------#
 
@@ -43,7 +47,10 @@ model1.data <- read_excel("./model1_data.xlsx")
 model1.lme <- lme(Plaque ~ Treatment + Period, random=~1|Subject, data=model1.data)
 summary(model1.lme)
 # Gets the baseline of overal treatment means.
-model1.lme.baseline <- Reduce(`+`, model1.lme[["coefficients"]][["fixed"]]) / 6
+model1.lsmeans <-lsmeans(model1.lme, "Treatment")
+model1.summary <- summary(model1.lsmeans)
+# Display baseline mean.
+mean(model1.summary $lsmean)
 
 #--------------- Model #2 ---------------#
 
