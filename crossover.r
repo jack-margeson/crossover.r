@@ -61,3 +61,14 @@ mean(model1.summary $lsmean)
 # Since we're looking for a baseline, all products (A & B) pull from the same normal distribution.
 # model2.data <- rnorm(48, 2.883, 0.34)
 model2.data <- read_excel("./model2_data.xlsx")
+# Linear mixed model in R.
+# Using package NLME, the lme function fits a linear mixed-effects model while allowing for nested random effects.
+# We can use the following line to generate a lme model for us with subjects as our random effect.
+# Noted: treatement and period added as fix effect covariates.
+model2.lme <- lme(Plaque ~ Treatment + Period, random=~1|Subject, data=model2.data)
+summary(model2.lme)
+# Gets the baseline of overal treatment means.
+model2.lsmeans <-lsmeans(model2.lme, "Treatment")
+model2.summary <- summary(model2.lsmeans)
+# Display baseline mean.
+mean(model2.summary $lsmean)
